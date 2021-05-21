@@ -69,7 +69,7 @@ text(2.3, 1.1, 'Process-Based', pos = 4, cex = 1.1)
 
 dev.off()
 
-readr::write_csv(eval_data, path = file.path(project_output_dir, 'model_summary_results.csv'))
+readr::write_csv(eval_data, file = file.path(project_output_dir, 'model_summary_results.csv'))
 
 
 render_data <- list(pgdl_980mean = filter(eval_data, model_type == 'pgdl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
