@@ -6,8 +6,8 @@
   library(whisker)
   
   fetch_data <- function() {
-    project_output_dir <- 'my_dir'
-    
+    project_output_dir <- 'fetch/out/my_dir'
+    #create directory
     dir.create(project_output_dir)
     
     
@@ -15,4 +15,3 @@
     mendota_file <- file.path(project_output_dir, 'model_RMSEs.csv')
     item_file_download('5d925066e4b0c4f70d0d0599', names = 'me_RMSE.csv', destinations = mendota_file, overwrite_file = TRUE)
   }
-

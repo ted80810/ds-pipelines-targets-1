@@ -16,6 +16,7 @@ plot_data <- function() {
     mutate(dl = -pgdl, pb = 0, n_prof = n_profs)
   
   for (mod in c('pb','dl','pgdl')){
+    eval_data <- file.path(project_output_dir, 'model_summary_results.csv')
     mod_data <- filter(eval_data, model_type == mod)
     mod_profiles <- unique(mod_data$n_prof)
     for (mod_profile in mod_profiles){
