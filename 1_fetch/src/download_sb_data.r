@@ -6,7 +6,7 @@
   library(whisker)
   
   fetch_data <- function() {
-    project_output_dir <- 'fetch/out/my_dir'
+    project_output_dir <- '1_fetch/out'
     #create directory
     dir.create(project_output_dir)
     

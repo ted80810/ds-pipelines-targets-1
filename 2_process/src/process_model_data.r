@@ -1,6 +1,9 @@
 process_data <- function() {
-  #Grab the data
-  mendota_file <- file.path(project_output_dir, 'model_RMSEs.csv')
+  # Set file paths for data
+  project_input_dir <- '1_fetch/out'
+  project_output_dir <- '2_process/out'
+  # Grab the data
+  mendota_file <- file.path(project_input_dir, 'model_RMSEs.csv')
   # Prepare the data for plotting
   eval_data <- readr::read_csv(mendota_file, col_types = 'iccd') %>%
     filter(str_detect(exper_id, 'similar_[0-9]+')) %>%

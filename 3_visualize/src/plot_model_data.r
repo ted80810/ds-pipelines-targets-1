@@ -1,4 +1,7 @@
 plot_data <- function() {
+  # Set file paths for data
+  project_input_dir <- '2_process/out'
+  project_output_dir <- '3_visualize/out'
   # Create a plot
   png(file = file.path(project_output_dir, 'figure_1.png'), width = 8, height = 10, res = 200, units = 'in')
   par(omi = c(0,0,0.05,0.05), mai = c(1,1,0,0), las = 1, mgp = c(2,.5,0), cex = 1.5)
@@ -16,7 +19,7 @@ plot_data <- function() {
     mutate(dl = -pgdl, pb = 0, n_prof = n_profs)
   
   for (mod in c('pb','dl','pgdl')){
-    eval_data <- file.path(project_output_dir, 'model_summary_results.csv')
+    eval_data <- file.path(project_input_dir, 'model_summary_results.csv')
     mod_data <- filter(eval_data, model_type == mod)
     mod_profiles <- unique(mod_data$n_prof)
     for (mod_profile in mod_profiles){
