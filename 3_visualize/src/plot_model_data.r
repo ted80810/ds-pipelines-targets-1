@@ -1,7 +1,7 @@
-plot_data <- function(project_output_dir, data) {
+plot_data <- function(filepath_out, data) {
   
   # Create a plot
-  png(file = file.path(project_output_dir), width = 8, height = 10, res = 200, units = 'in')
+  png(file = filepath_out, width = 8, height = 10, res = 200, units = 'in')
   par(omi = c(0,0,0.05,0.05), mai = c(1,1,0,0), las = 1, mgp = c(2,.5,0), cex = 1.5)
   
   plot(NA, NA, xlim = c(2, 1000), ylim = c(4.7, 0.75),
@@ -42,5 +42,5 @@ plot_data <- function(project_output_dir, data) {
   text(2.3, 1.1, 'Process-Based', pos = 4, cex = 1.1)
   
   dev.off()
-  return(project_output_dir)
+  return(filepath_out)
 }

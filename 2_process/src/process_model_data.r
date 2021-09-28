@@ -1,6 +1,6 @@
-process_data <- function(project_input_dir) {
+process_data <- function(in_filepath) {
     # Prepare the data for plotting
-  eval_data <- readr::read_csv(project_input_dir, col_types = 'iccd') %>%
+  eval_data <- readr::read_csv(in_filepath, col_types = 'iccd') %>%
     filter(str_detect(exper_id, 'similar_[0-9]+')) %>%
     mutate(col = case_when(
       model_type == 'pb' ~ '#1b9e77',
@@ -11,17 +11,18 @@ process_data <- function(project_input_dir) {
       model_type == 'dl' ~ 22,
       model_type == 'pgdl' ~ 23
     ), n_prof = as.numeric(str_extract(exper_id, '[0-9]+')))
+  return(in_filepath)
 }
   
 #save processed data
-save_data <- function(eval_data, project_output_dir){
-  dir.create(project_output_dir, showWarnings = FALSE)
-  readr::write_csv(eval_data, file = project_output_dir)
-  return(project_output_dir)
+save_data <- function(eval_data, filepath_out){
+  dir.create(filepath_out, showWarnings = FALSE)
+  readr::write_csv(eval_data, file = filepath_out)
+  return(filepath_out)
 }
   
 # Save the model diagnostics
-generate_model_diagnostics <- function(data, project_output_dir){
+generate_model_diagnostics <- function(data, filepath_out){
     render_data <- list(pgdl_980mean = filter(data, model_type == 'pgdl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
                       dl_980mean = filter(data, model_type == 'dl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
                       pb_980mean = filter(data, model_type == 'pb', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
@@ -37,7 +38,7 @@ generate_model_diagnostics <- function(data, project_output_dir){
     ({{dl_500mean}} and {{pb_500mean}}°C, respectively) or more, but worse than PB when training was reduced to 100 profiles ({{dl_100mean}} and {{pb_100mean}}°C respectively) or fewer.
     The PGDL prediction accuracy was more robust compared to PB when only two profiles were provided for training ({{pgdl_2mean}} and {{pb_2mean}}°C, respectively). '
   
-  whisker.render(template_1 %>% str_remove_all('\n') %>% str_replace_all('  ', ' '), render_data ) %>% cat(file = file.path(project_output_dir))
-   return(project_output_dir)
+  whisker.render(template_1 %>% str_remove_all('\n') %>% str_replace_all('  ', ' '), render_data ) %>% cat(file = file.path(filepath_out))
+   return(filepath_out)
 }
     
