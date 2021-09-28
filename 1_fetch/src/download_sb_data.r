@@ -5,7 +5,7 @@
   library(sbtools)
   library(whisker)
   
-  fetch_data <- function(item_id, filepath_out) {
+  fetch_data <- function(item_id, filename, filepath_out) {
     #create directory
     project_output_dir <- dirname(filepath_out)
     dir.create(project_output_dir, showWarnings = FALSE)
