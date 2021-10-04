@@ -1,9 +1,7 @@
-plot_data <- function() {
-  # Set file paths for data
-  project_input_dir <- '2_process/out'
-  project_output_dir <- '3_visualize/out'
+plot_data <- function(filepath_out, data) {
+  
   # Create a plot
-  png(file = file.path(project_output_dir, 'figure_1.png'), width = 8, height = 10, res = 200, units = 'in')
+  png(file = filepath_out, width = 8, height = 10, res = 200, units = 'in')
   par(omi = c(0,0,0.05,0.05), mai = c(1,1,0,0), las = 1, mgp = c(2,.5,0), cex = 1.5)
   
   plot(NA, NA, xlim = c(2, 1000), ylim = c(4.7, 0.75),
@@ -18,10 +16,8 @@ plot_data <- function() {
   offsets <- data.frame(pgdl = c(0.15, 0.5, 3, 7, 20, 30)) %>%
     mutate(dl = -pgdl, pb = 0, n_prof = n_profs)
   
-  eval_data <- readr::read_csv(file = file.path(project_input_dir, 'model_summary_results.csv'))
-  
   for (mod in c('pb','dl','pgdl')){
-    mod_data <- filter(eval_data, model_type == mod)
+    mod_data <- filter(data, model_type == mod)
     mod_profiles <- unique(mod_data$n_prof)
     for (mod_profile in mod_profiles){
       d <- filter(mod_data, n_prof == mod_profile) %>% summarize(y0 = min(rmse), y1 = max(rmse), col = unique(col))
@@ -46,4 +42,5 @@ plot_data <- function() {
   text(2.3, 1.1, 'Process-Based', pos = 4, cex = 1.1)
   
   dev.off()
+  return(filepath_out)
 }
