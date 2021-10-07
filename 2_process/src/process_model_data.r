@@ -11,12 +11,13 @@ process_data <- function(in_filepath) {
       model_type == 'dl' ~ 22,
       model_type == 'pgdl' ~ 23
     ), n_prof = as.numeric(str_extract(exper_id, '[0-9]+')))
-  return(in_filepath)
+  return(eval_data)
 }
   
 #save processed data
 save_data <- function(eval_data, filepath_out){
-  dir.create(filepath_out, showWarnings = FALSE)
+  project_output_dir <- dirname(filepath_out)
+  dir.create(project_output_dir, showWarnings = FALSE)
   readr::write_csv(eval_data, file = filepath_out)
   return(filepath_out)
 }
